@@ -1,0 +1,247 @@
+//package com.plants.archive;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.Calendar;
+import javax.swing.border.*;
+import java.sql.*;
+
+public class CustomerBill extends JFrame implements ActionListener {
+
+	JLabel l, l1, l2, l3, l4, l5, dt;
+	JButton b1, b2, b3;
+	JPanel p1, p2;
+
+	JTextField customerId, customerName, customerAddress, Amount, Date;
+
+	public CustomerBill() {
+		super(" CUSTOMER RECEIVE ");
+
+		p1 = new JPanel();
+		p2 = new JPanel();
+
+		l = new JLabel();
+		l1 = new JLabel();
+		l2 = new JLabel();
+		l3 = new JLabel();
+		l4 = new JLabel();
+		l5 = new JLabel();
+		dt = new JLabel();
+
+		customerId = new JTextField();
+		customerName = new JTextField();
+		customerAddress = new JTextField();
+		Amount = new JTextField();
+		Date = new JTextField();
+
+		b1 = new JButton();
+		b2 = new JButton();
+		b3 = new JButton();
+
+		Container contentPane = getContentPane();
+		contentPane.setLayout(null);
+
+		p1.setLayout(null);
+
+		p1.setBorder(new LineBorder(new Color(153, 51, 0), 2, true));
+		p1.setForeground(new Color(153, 51, 0));
+		p1.setBackground(new Color(250, 250 , 250));
+		
+		Font title = new Font("Arial",Font.BOLD , 25);
+		l.setFont(title);
+		//l.setFont(Font.BOLD);
+		l.setForeground(Color.black);
+		l.setText(" The Plants World ");
+		l.setHorizontalTextPosition(SwingConstants.CENTER);
+		getContentPane().add(l);
+		l.setBounds(260, 15, 250, 40);
+
+		l1.setFont(new Font("Arial",Font.BOLD, 20));
+		
+		l1.setForeground(Color.DARK_GRAY);
+		l1.setText("CUSTOMER   RECEIVE");
+		l1.setMaximumSize(new Dimension(150, 25));
+		l1.setMinimumSize(new Dimension(150, 25));
+		p1.add(l1);
+		l1.setBounds(190, 25, 260, 30);
+
+		dt.setFont(new Font("Arial", 1, 13));
+		dt.setText("DATE:");
+		dt.setMaximumSize(new Dimension(105, 15));
+		dt.setMinimumSize(new Dimension(105, 15));
+		p1.add(dt);
+		dt.setBounds(20, 75, 150, 25);
+
+		l2.setFont(new Font("Arial", 1, 13));
+		l2.setText("CUSTOMER NO:");
+		l2.setMaximumSize(new Dimension(105, 15));
+		l2.setMinimumSize(new Dimension(105, 15));
+		p1.add(l2);
+		l2.setBounds(20, 130, 150, 25);
+
+		customerId.setFont(new Font("Arial", 1, 13));
+		customerId.addActionListener(this);
+		p1.add(customerId);
+		customerId.setBounds(200, 130, 300, 25);
+
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/nms","root","");
+			String q = "select max(cno) from customer_receive";
+			System.out.println(""+q);
+			Statement stmt = con.createStatement();
+			ResultSet rst = stmt.executeQuery(q);
+			int no=0;
+			if(rst.next())
+			{
+				no=rst.getInt(1)+1;
+				System.out.println("no");
+			}
+			customerId.setText(""+no);
+			customerId.setEditable(false);
+		}
+		catch(Exception e)
+		{
+		     System.out.println("Connection Failed"+e.toString());
+		}
+		//------------------------------------
+		
+		l3.setFont(new Font("Arial", 1, 13));
+		l3.setText("CUSTOMER NAME:");
+		p1.add(l3);
+		l3.setBounds(20, 185, 150, 25);
+
+		l4.setFont(new Font("Arial", 1, 13));
+		l4.setText("CUSTOMER ADDRESS:");
+		l4.setMaximumSize(new Dimension(105, 15));
+		l4.setMinimumSize(new Dimension(105, 15));
+		p1.add(l4);
+		l4.setBounds(20, 240, 150, 25);
+
+		l5.setFont(new Font("Arial", Font.BOLD, 14));
+		l5.setText("Phone Number");
+		l5.setMaximumSize(new Dimension(105, 15));
+		l5.setMinimumSize(new Dimension(105, 15));
+		p1.add(l5);
+		l5.setBounds(20, 295, 150, 25);
+
+		customerName.setFont(new Font("Arial", 1, 13));
+		customerName.addActionListener(this);
+		p1.add(customerName);
+		customerName.setBounds(200, 185, 300, 25);
+
+		customerAddress.setFont(new Font("Arial", 1, 13));
+		customerAddress.addActionListener(this);
+		p1.add(customerAddress);
+		customerAddress.setBounds(200, 240, 300, 25);
+
+		Amount.setFont(new Font("Arial", 1, 13));
+		Amount.addActionListener(this);
+		p1.add(Amount);
+		Amount.setBounds(200, 295, 300, 25);
+
+		Date.setFont(new Font("Arial", 1, 13));
+		Date.addActionListener(this);
+		p1.add(Date);
+		Date.setBounds(200, 75, 300, 25);
+
+		getContentPane();
+		getContentPane().add(p1);
+		p1.setBounds(40, 60, 670, 390);
+
+		p2.setLayout(null);
+		p2.setBackground(new Color(250, 200, 255));
+		p2.setBorder(new LineBorder(new Color(153, 51, 0), 2, true));
+
+		b1.setFont(new Font("Arial", 1, 12));
+		b1.setText("SAVE");
+		b1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		b1.addActionListener(this);
+		p2.add(b1);
+		b1.setBounds(70, 20, 80, 20);
+
+		b2.setFont(new Font("Arial", 1, 12));
+		b2.setText("CLEAR");
+		b2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		b2.addActionListener(this);
+		p2.add(b2);
+		b2.setBounds(180, 20, 90, 20);
+
+		b3.setFont(new Font("Arial", 1, 12));
+		b3.setText("HOME");
+		b3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		b3.addActionListener(this);
+		p2.add(b3);
+		b3.setBounds(300, 20, 100, 20);
+
+		contentPane.add(p2);
+		p2.setBounds(40, 455, 670, 60);
+
+		Calendar cal = Calendar.getInstance();
+		Date.setText((cal.get(Calendar.DATE)) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + (cal.get(Calendar.YEAR)));
+		Date.setEditable(false);
+		setVisible(true);
+		setSize(800, 600);
+		setLocation(400,150);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	}
+
+	
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource() == b1) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection c1 = DriverManager.getConnection("jdbc:mysql://localhost/nms","root","");
+				
+				Statement s1 = c1.createStatement();
+				String ss1 = ("insert into customer_receive values('" + customerId.getText() + "','" + customerName.getText() + "','"
+						+ customerAddress.getText() + "','" + Amount.getText() + "','" + Date.getText() + "')");
+				s1.executeUpdate(ss1);
+
+				c1.close();
+				
+				JOptionPane.showMessageDialog(null,"Records For "+customerName.getText()+" Saved Successfully");
+
+				/**
+				 * The First Parameter to JOptionPane Is the Component On which we want to Display the JOpionPane
+				 * Note: Whichever Component you give JOptionPane will Open that screen and display's the message.
+				 * So be carefull while chossing component because if you give same component in which the
+				 * JOptionPane is invoked then It'll open the same window Again.
+				 */
+
+				customerId.setText("");
+				customerName.setText("");
+				customerAddress.setText("");
+				Amount.setText("");
+
+			} catch (Exception ex) {
+				System.out.println(ex);
+			}
+
+		}
+		if (e.getSource() == b2) {
+
+			customerId.setText("");
+			customerName.setText("");
+			customerAddress.setText("");
+			Amount.setText("");
+			Date.setText("");
+		}
+		if (e.getSource() == b3) {
+			dispose();
+			Home h = new Home();
+		}
+
+
+	}
+
+	public static void main(String args[]) {
+		CustomerBill c1 = new CustomerBill();
+		c1.show();
+		c1.setDefaultCloseOperation(c1.EXIT_ON_CLOSE);
+	}
+}
